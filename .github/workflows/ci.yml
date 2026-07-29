@@ -18,10 +18,10 @@ jobs:
         run: |
           echo "Setting up environment for Bash log-rotation project"
 
-      - name: Install ShellCheck
+      - name: Install ShellCheck and BATS
         run: |
           sudo apt-get update
-          sudo apt-get install -y shellcheck
+          sudo apt-get install -y shellcheck bats
 
       - name: Lint Bash scripts
         run: |
@@ -36,7 +36,7 @@ jobs:
             ./test.sh
           elif [ -d "./tests" ]; then
             for test_script in tests/*.sh; do
-              bash "$test_script"
+              bats "$test_script"
             done
           else
             echo "Running basic syntax check on scripts..."
