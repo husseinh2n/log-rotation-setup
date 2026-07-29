@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bash environment
+        run: |
+          echo "Setting up environment for Bash log-rotation project"
+
+      - name: Install ShellCheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+
+      - name: Lint Bash scripts
+        run: |
+          # Find all shell scripts and run shellcheck
+          find . -type f \( -name "*.sh" -o -name "logrotate*" \) -exec shellcheck {} +
+
+      - name: Run tests / validation
+        run: |
+          # If there is a test script or validation script, execute it.
+          # Otherwise, validate the syntax of all bash scripts.
+          if [ -f "./test.sh" ]; then
+            ./test.sh
+          elif [ -d "./tests" ]; then
+            for test_script in tests/*.sh; do
+              bash "$test_script"
+            done
+          else
+            echo "Running basic syntax check on scripts..."
+            for script in $(find . -type f -name "*.sh"); do
+              bash -n "$script"
+            done
+          fi
