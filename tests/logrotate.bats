@@ -18,7 +18,7 @@ setup() {
     mkdir -p "${TEST_DIR}/scripts"
 
     # Copy actual scripts and configs into our test environment for validation
-    cp config/logrotate.conf "${TEST_DIR}/etc/logrotate.conf"
+    cp config/logrotate.conf "${TEST_DIR}/etc/logrotate.d/myapp"
     cp scripts/validate.sh "${TEST_DIR}/scripts/validate.sh"
     cp scripts/entrypoint.sh "${TEST_DIR}/scripts/entrypoint.sh"
     
@@ -38,7 +38,7 @@ teardown() {
 
 @test "validate.sh succeeds with a valid logrotate configuration" {
     # Verify that the default configuration passes logrotate's syntax check
-    run "${TEST_DIR}/scripts/validate.sh" "${TEST_DIR}/etc/logrotate.conf"
+    run "${TEST_DIR}/scripts/validate.sh" "${TEST_DIR}/etc/logrotate.d/myapp"
     
     # Assert that the command succeeded (exit code 0)
     [ "$status" -eq 0 ]
@@ -46,10 +46,10 @@ teardown() {
 
 @test "validate.sh fails with a malformed logrotate configuration" {
     # Introduce a syntax error into the config (unclosed bracket/invalid directive)
-    echo "invalid_directive_syntax_test" >> "${TEST_DIR}/etc/logrotate.conf"
+    echo "invalid_directive_syntax_test" >> "${TEST_DIR}/etc/logrotate.d/myapp"
 
     # Run validation against the broken configuration
-    run "${TEST_DIR}/scripts/validate.sh" "${TEST_DIR}/etc/logrotate.conf"
+    run "${TEST_DIR}/scripts/validate.sh" "${TEST_DIR}/etc/logrotate.d/myapp"
     
     # Assert that the command failed (non-zero exit code)
     [ "$status" -ne 0 ]
