@@ -1,0 +1,12 @@
+log-rotation-setup/
+├── .github/workflows/ci.yml     # GitHub Actions workflow that runs validation and tests automatically
+├── Dockerfile                   # Defines the container environment with logrotate and bash installed
+├── README.md                    # You are reading this right now!
+├── config/
+│   └── logrotate.conf           # The core logrotate rules defining how logs are handled
+├── docker-compose.yml           # Orchestrates the container setup for local development
+├── scripts/
+│   ├── entrypoint.sh            # Container startup script to manage log generation and permissions
+│   └── validate.sh              # Script that checks config syntax and forces a dry-run rotation
+└── tests/
+    └── logrotate.bats           # Automated BATS tests to verify logs actually rotate and compress

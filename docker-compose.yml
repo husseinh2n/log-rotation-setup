@@ -1,0 +1,9 @@
+services:
+  logrotate-app:
+    build: .
+    container_name: log-rotation-setup
+    # Mount a volume so you can inspect rotated logs easily on your host machine
+    volumes:
+      - ./logs:/var/log/myapp
+    # Override command to keep container running and generating logs for testing
+    command: ["/bin/bash", "-c", "while true; do echo \"$(date) - INFO - Sample application log event.\" >> /var/log/myapp/app.log; sleep 2; done"]
