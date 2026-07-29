@@ -18,10 +18,10 @@ jobs:
         run: |
           echo "Setting up environment for Bash log-rotation project"
 
-      - name: Install ShellCheck and BATS
+      - name: Install ShellCheck, BATS, and logrotate
         run: |
           sudo apt-get update
-          sudo apt-get install -y shellcheck bats
+          sudo apt-get install -y shellcheck bats logrotate
 
       - name: Lint Bash scripts
         run: |
