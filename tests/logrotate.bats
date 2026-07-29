@@ -14,7 +14,7 @@ setup() {
     
     # Create mock directory structures required by logrotate and scripts
     mkdir -p "${TEST_DIR}/etc/logrotate.d"
-    mkdir -p "${TEST_DIR}/var/log/app"
+    mkdir -p "${TEST_DIR}/var/log/myapp"
     mkdir -p "${TEST_DIR}/scripts"
 
     # Copy actual scripts and configs into our test environment for validation
@@ -61,11 +61,11 @@ teardown() {
 
 @test "logrotate successfully rotates target log files" {
     # Create a dummy log file inside our test directory
-    echo "Sample log entry 1" > "${TEST_DIR}/var/log/app/app.log"
+    echo "Sample log entry 1" > "${TEST_DIR}/var/log/myapp/app.log"
 
     # Create a temporary test-specific logrotate configuration pointing to our test log
     cat <<EOF > "${TEST_DIR}/etc/test_app.conf"
-    ${TEST_DIR}/var/log/app/*.log {
+    ${TEST_DIR}/var/log/myapp/app.log {
         size 1k
         rotate 3
         missingok
