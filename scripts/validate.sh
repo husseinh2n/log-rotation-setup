@@ -4,8 +4,8 @@ set -e
 
 echo "Running logrotate validation..."
 
-# Path to the configuration file being tested
-CONFIG_FILE="config/logrotate.conf"
+# Path to the configuration file being tested (allow override via argument)
+CONFIG_FILE="${1:-config/logrotate.conf}"
 
 # Ensure the config file exists
 if [ ! -f "$CONFIG_FILE" ]; then
